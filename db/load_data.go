@@ -27,6 +27,11 @@ func LoadGeoJSONToPostGIS(db *sql.DB, geojsonFile string) error {
 		return err
 	}
 
+	maxInsert := 1000
+	if len(featureCollection.Features) < maxInsert {
+		maxInsert = len(featureCollection.Features)
+	}
+
 	stmt, err :=db.Prepare(`
 	INSERT INTO juho_test.parks (osm_id, name, geom, tags)
         VALUES ($1, $2, ST_SetSRID(ST_MakePoint($3, $4), 4326), $5)
@@ -38,7 +43,11 @@ func LoadGeoJSONToPostGIS(db *sql.DB, geojsonFile string) error {
 	}
 	defer stmt.Close()
 
-	for _, feature := range featureCollection.Features {
+	for i, feature := range featureCollection.Features {
+		if i >= maxInsert {
+			break
+		}
+		
 		if feature.Geometry.IsPoint() {
 			lon, lat := feature.Geometry.Point[0], feature.Geometry.Point[1]
 			osmID := feature.Properties["id"]
