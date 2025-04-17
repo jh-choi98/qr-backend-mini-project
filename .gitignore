@@ -1,2 +1,3 @@
 .env
 osm_data.geojson
+.DS_Store
