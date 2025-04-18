@@ -1,5 +1,7 @@
 # OSM Geospatial API Backend
 
+![Go CI](https://github.com/jh-choi98/qr-backend-mini-project/actions/workflows/go.yml/badge.svg)
+
 This project provides a **backend API** for working with geospatial data from **OpenStreetMap (OSM)**.  
 It fetches OSM data, converts it to **GeoJSON**, stores it in a **PostGIS** database, and serves spatial queries via REST API.
 
@@ -8,9 +10,10 @@ It fetches OSM data, converts it to **GeoJSON**, stores it in a **PostGIS** data
 ✅ Fetches geospatial data (e.g., parks) from **OSM Overpass API**  
 ✅ Converts OSM JSON response to **GeoJSON**  
 ✅ Stores geospatial data in a **PostGIS database** (Supabase)  
-✅ Provides RESTful APIs to:  
-- Retrieve all stored geospatial data  
-- Perform spatial queries (e.g., find parks within a region)  
+✅ Provides RESTful APIs to:
+
+- Retrieve all stored geospatial data
+- Perform spatial queries (e.g., find parks within a region)
 
 ---
 
@@ -36,7 +39,7 @@ It fetches OSM data, converts it to **GeoJSON**, stores it in a **PostGIS** data
 
 ### Clone the Repository
 
-```sh
+````sh
 git clone https://github.com/jh-choi98/qr-backend-mini-project.git
 cd qr-backend-mini-project
 
@@ -46,7 +49,7 @@ cd qr-backend-mini-project
 ```ini
 CONNECT_STRING="user=supabase_admin password=<your_password> host=<your_host> port=5432 dbname=<your_db> sslmode=disable"
 OSM_API_URL="http://overpass-api.de/api/interpreter?data=[out:json];area[name=%22Toronto%22]-%3E.searchArea;(node[leisure=park](area.searchArea);way[leisure=park](area.searchArea);relation[leisure=park](area.searchArea););out%20body;%3E;out%20skel%20qt;"
-```
+````
 
 ---
 
@@ -71,19 +74,21 @@ go run main.go
 ### 1️⃣ Get All Geospatial Data
 
 **Example Request:**
+
 ```sh
 curl http://localhost:8080/get-raw-data
 ```
 
 **Example Response:**
+
 ```json
 [
-    {
-        "osm_id": 123456,
-        "name": "High Park",
-        "geom": { "type": "Point", "coordinates": [-79.466, 43.646] },
-        "tags": { "leisure": "park", "name": "High Park" }
-    }
+  {
+    "osm_id": 123456,
+    "name": "High Park",
+    "geom": { "type": "Point", "coordinates": [-79.466, 43.646] },
+    "tags": { "leisure": "park", "name": "High Park" }
+  }
 ]
 ```
 
@@ -92,24 +97,25 @@ curl http://localhost:8080/get-raw-data
 ### 2️⃣ Perform a Spatial Query
 
 **Example Request:**
+
 ```sh
 curl "http://localhost:8080/spatial-query?region=Toronto"
 ```
 
 **Example Response:**
+
 ```json
 [
-    {
-        "osm_id": 654321,
-        "name": "Trinity Bellwoods Park",
-        "geom": { "type": "Point", "coordinates": [-79.416, 43.645] },
-        "tags": { "leisure": "park", "name": "Trinity Bellwoods Park" }
-    }
+  {
+    "osm_id": 654321,
+    "name": "Trinity Bellwoods Park",
+    "geom": { "type": "Point", "coordinates": [-79.416, 43.645] },
+    "tags": { "leisure": "park", "name": "Trinity Bellwoods Park" }
+  }
 ]
 ```
 
 ---
-
 
 ## 🔧 Troubleshooting
 
@@ -179,6 +185,6 @@ MIT License
 
 ## 🌍 References
 
-- OpenStreetMap Overpass API: [https://overpass-api.de](https://overpass-api.de)  
-- PostGIS Documentation: [https://postgis.net/documentation/](https://postgis.net/documentation/)  
+- OpenStreetMap Overpass API: [https://overpass-api.de](https://overpass-api.de)
+- PostGIS Documentation: [https://postgis.net/documentation/](https://postgis.net/documentation/)
 - Supabase PostgreSQL: [https://supabase.com/docs/guides/database](https://supabase.com/docs/guides/database)
